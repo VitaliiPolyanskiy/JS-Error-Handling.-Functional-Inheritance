@@ -1,0 +1,86 @@
+﻿<!DOCTYPE html>
+
+<html lang="uk" xmlns="http://www.w3.org/1999/xhtml">
+
+<head>
+    <meta charset="utf-8" />
+    <title>Конструкція try…catch</title>
+</head>
+
+<body>
+    <script>
+        function createClub(pName, pCity, pYear) {
+            if (pName === undefined || pCity === undefined || pYear === undefined)
+                throw new TypeError("Функція не створила об'єкт!");
+            else return {
+                name: pName,
+                city: pCity,
+                year: pYear,
+                displayInfo: function () {
+                    document.write("Назва: " + this.name +
+                        "<br />Місто: " + this.city +
+                        "<br />Рік заснування: " + this.year + "<br/>");
+                }
+            };
+        }
+
+        function SQRT(arg) {
+            try {
+                if (arg < 0)
+                    throw new RangeError("Аргумент має бути більшим або рівним нулю!");
+                alert(Math.sqrt(arg));
+            }
+            catch (e) {
+                alert('Помилка ' + e.name /* Тип помилки */ + "\n"
+                    + e.message /* Текстове повідомлення про деталі помилки */ + "\n"
+                    + e.stack /* властивість stack, яка містить рядок з інформацією 
+                про послідовність викликів, що призвела до помилки */);
+                throw e; // прокидання помилки
+            }
+        }
+
+        try {
+            //SQRT(-9);
+            alert('Початок блоку try');
+            let a = 10;
+            //alert(a.length()); // помилка, об'єкт не підтримує метод length!
+            //undeclaredVariable; // помилка, змінна не визначена!
+            let club = createClub("Динамо", "Київ", 1927);
+            club.displayInfo();
+            club = createClub(); // помилка: функція генерує виняток
+            club.displayInfo();
+            alert('Кінець блоку try');
+        }
+        catch (e) {
+            alert('Помилка ' + e.name /* Тип помилки */ + "\n"
+                + e.message /* Текстове повідомлення про деталі помилки */ + "\n"
+                + e.stack /* властивість stack, яка містить рядок з інформацією 
+                про послідовність викликів, що призвела до помилки */);
+        }
+        alert("Потім код продовжить виконання...");
+
+        let n = +prompt('Введіть n?', 100);
+        let counter = 0;
+        let result;
+        try {
+            result = sum(n);
+        } catch (e) {
+            result = 0;
+            alert('Помилка ' + e.name /* Тип помилки */ + "\n"
+                + e.message /* Текстове повідомлення про деталі помилки */ + "\n"
+                + e.stack /* властивість stack, яка містить рядок з інформацією 
+                про послідовність викликів, що призвела до помилки */);
+        } finally {
+            alert("Лічильник рекурсій: " + counter);
+        }
+
+        alert(result ? result : 'Помилка через занадто глибоку рекурсію');
+
+        function sum(n) {
+            counter++;
+            return n ? (n + sum(n - 1)) : 0;
+        }
+    </script>
+</body>
+
+</html>
